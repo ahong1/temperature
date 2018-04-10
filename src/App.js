@@ -10,7 +10,7 @@ class App extends Component {
     super()
     this.state =
       {
-        currentData: {},
+        currentData: test1data[0],
         dataPoint: 0
       }
   }
@@ -31,6 +31,10 @@ class App extends Component {
     })
   }
 
+  handleStop = () => {
+    clearInterval(this.state.simulation);
+  }
+
 
 
 
@@ -38,7 +42,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <Thermometer data={this.state.currentData} handleStart={this.handleStart}/>
+        <Thermometer data={this.state.currentData} handleStart={this.handleStart} handleStop={this.handleStop}/>
       </div>
     );
   }
