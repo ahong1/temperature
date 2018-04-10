@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Thermometer from './thermometer.js';
 import {test1data} from './test1.js';
