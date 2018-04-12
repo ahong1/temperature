@@ -25,7 +25,6 @@ class App extends Component {
   }
 
   handleStart = () => {
-
     this.setState({
       simulation: setInterval(function () {
         if (!testData[this.state.dataPoint]) {
@@ -66,15 +65,15 @@ class App extends Component {
 
   toggleUnits = () => {
     this.setState({
-      units: this.state.units === 'celsius' ? 'fahrenheight' : 'celsius'
+      units: this.state.units === 'celsius' ? 'fahrenheit' : 'celsius'
     })
   }
 
-  getfahrenheight = () => {
+  getfahrenheit = () => {
     this.setState({
-      units: 'fahrenheight'
+      units: 'fahrenheit'
     })
-    return this.state.fahrenheight
+    return this.state.fahrenheit
   }
 
   getCelsius = () => {
@@ -91,7 +90,7 @@ class App extends Component {
   }
 
   addToLog = (value) => {
-    if (value !== ' ') {
+    if (value !== '') {
       this.setState({
         log: this.state.log.concat(value)
       })
@@ -114,7 +113,7 @@ class App extends Component {
 
         <div style={{width: '100%'}}>
           <button onClick={this.handleStart}>Start</button>
-          <button onClick={this.getfahrenheight}>Show Fahrenheight</button>
+          <button onClick={this.getfahrenheit}>Show fahrenheit</button>
           <button onClick={this.getCelsius}>Show Celsius</button>
           <button onClick={this.handleStop}>Stop</button>
         </div>
