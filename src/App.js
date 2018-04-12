@@ -1,33 +1,38 @@
-import React, { Component } from 'react';
-import './App.css';
-import Thermometer from './thermometer.js';
-import {test1data} from './test1.js';
+import React, { Component } from 'react'
+import './App.css'
+import Thermometer from './thermometer.js'
+import { test1data, test2data, test3data, test4data } from './test1.js'
+
+const testData = test4data
 
 class App extends Component {
 
-  constructor(){
+  constructor () {
     super()
     this.state =
       {
-        currentData: test1data[0],
+        currentData: testData[0],
         dataPoint: 0,
-        freezingPoint: 0,
-        boilingPoint: 0,
+        freezingPoint: null,
+        boilingPoint: null,
         difference: 0,
         direction: 0,
-        units: 'celsius'
+        units: testData[0].unit,
+        log: ''
 
       }
+    this.addToLog.bind(this)
   }
 
   handleStart = () => {
-    console.log('start')
 
     this.setState({
       simulation: setInterval(function () {
-        console.log(this.state.currentData)
-        if(!test1data[this.state.dataPoint]) {clearInterval(this.state.simulation); return;}
-        const currentData = test1data[this.state.dataPoint]
+        if (!testData[this.state.dataPoint]) {
+          clearInterval(this.state.simulation)
+          return
+        }
+        const currentData = testData[this.state.dataPoint]
         this.setState({
           currentData,
           dataPoint: this.state.dataPoint + 1
@@ -37,7 +42,7 @@ class App extends Component {
   }
 
   handleStop = () => {
-    clearInterval(this.state.simulation);
+    clearInterval(this.state.simulation)
   }
 
   handleDifference = (event) => {
@@ -61,7 +66,7 @@ class App extends Component {
 
   toggleUnits = () => {
     this.setState({
-      units: this.state.unit === 'celsius'? 'fahrenheight' : 'celsius'
+      units: this.state.units === 'celsius' ? 'fahrenheight' : 'celsius'
     })
   }
 
@@ -72,7 +77,7 @@ class App extends Component {
     return this.state.fahrenheight
   }
 
-  getCelsius = () =>{
+  getCelsius = () => {
     this.setState({
       units: 'celsius'
     })
@@ -83,11 +88,18 @@ class App extends Component {
     this.setState({
       direction: id
     })
-}
+  }
 
-  render() {
-    const {freezingPoint, boilingPoint, difference, direction} = this.state;
+  addToLog = (value) => {
+    if (value !== ' ') {
+      this.setState({
+        log: this.state.log.concat(value)
+      })
+    }
+  }
 
+  render () {
+    const {freezingPoint, boilingPoint, difference, direction} = this.state
     const settings = {
       freezingPoint,
       boilingPoint,
@@ -97,7 +109,8 @@ class App extends Component {
 
     return (
       <div className="App">
-        <Thermometer data={this.state.currentData} settings={settings} handleStart={this.handleStart} handleStop={this.handleStop} units={this.state.units}/>
+        <Thermometer data={this.state.currentData} settings={settings} handleStart={this.handleStart}
+                     handleStop={this.handleStop} units={this.state.units} addToLog={this.addToLog}/>
 
         <div style={{width: '100%'}}>
           <button onClick={this.handleStart}>Start</button>
@@ -108,33 +121,37 @@ class App extends Component {
 
         <div style={{width: '100%'}}>
           <div>
-            <span style={{marginRight: "30px"}}> Set Freezing Point</span>
+            <span style={{marginRight: '30px'}}> Set Freezing Point</span>
             <input type='number' onChange={this.handleFreezingChange} value={this.state.freezingPoint}/>
-            <button onClick={this.toggleUnits}>{this.state.unit}</button>
+            <button onClick={this.toggleUnits}>{this.state.units}</button>
           </div>
           <div>
-            <span style={{marginRight: "30px"}}> Set Boiling Point</span>
+            <span style={{marginRight: '30px'}}> Set Boiling Point</span>
             <input type='number' onChange={this.handleBoilingChange} value={this.state.boilingPoint}/>
           </div>
         </div>
         <div style={{width: '100%'}}>
           <div>
-            <span style={{marginRight: "30px"}}> Ignore +/- </span>
+            <span style={{marginRight: '30px'}}> Ignore +/- </span>
             <input type='number' onChange={this.handleDifference} value={this.state.difference}/>
-            <span style={{marginRight: "30px"}}> changes</span>
+            <span style={{marginRight: '30px'}}> changes</span>
           </div>
 
           <div>
-            <span style={{marginRight: "30px"}}> Direction </span>
-            <button id={1} onClick={(event) => this.handleDirection(1)}>Ascending</button>
-            <button id={2} onClick={(event) => this.handleDirection(-1)}>Decending</button>
-            <button id={3} onClick={(event) => this.handleDirection(0)}>None</button>
+            <span style={{marginRight: '30px'}}> Direction </span>
+            <button id={1} onClick={() => this.handleDirection(1)}>Ascending</button>
+            <button id={2} onClick={() => this.handleDirection(-1)}>Decending</button>
+            <button id={3} onClick={() => this.handleDirection(0)}>None</button>
           </div>
         </div>
 
+        <div style={{width: '100%'}}>
+          <textarea value={this.state.log} style={{width: '50%', height: '200px'}}/>
+        </div>
+
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App
