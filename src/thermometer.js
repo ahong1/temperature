@@ -13,32 +13,35 @@ export default class Thermometer extends React.Component {
   }
 
   componentWillMount () {
-    if (this.props.data.unit === 'celsius') {
-      this.setState({
-        unit: this.props.data.unit,
-        celsius: this.props.data.temp
-      })
-    }
-    else {
-      this.setState({
-        unit: this.props.data.unit,
-        fahrenheit: this.props.data.temp
-      })
+    if(this.props.data) {
+
+      if (this.props.data.unit === 'celsius') {
+        this.setState({
+          unit: this.props.data.unit,
+          celsius: this.props.data.temp
+        })
+      }
+      else {
+        this.setState({
+          unit: this.props.data.unit,
+          fahrenheit: this.props.data.temp
+        })
+      }
     }
   }
 
   componentWillReceiveProps (nextProps) {
     const {settings} = nextProps
     const {direction, difference} = settings
-    const freezingPoint = settings.freezingPoint || 0
-    const boilingPoint = settings.boilingPoint || 0
+    const freezingPoint = Number(settings.freezingPoint) || 0
+    const boilingPoint = Number(settings.boilingPoint) || 0
     const date = new Date()
     let {boiling, freezing} = this.state;
     let newTemp, oldTemp
     let newLogEntries = ''
 
     //ignore new data if the tempurature is within +/- difference
-    if (Math.abs(nextProps.data.temp - this.state[nextProps.data.unit]) <= difference) return
+    if (this.validateProps(nextProps) && (!nextProps.data || Math.abs(nextProps.data.temp - this.state[nextProps.data.unit]) <= difference)) return
 
     // check to see if it crosses threshold
     let {celsius, fahrenheit} = this.calcTemp(nextProps.data.unit, nextProps.data.temp)
@@ -60,13 +63,16 @@ export default class Thermometer extends React.Component {
       boiling = true
     }
     this.setState({
-      celsius,
-      fahrenheit,
-      freezing,
-      boiling
-    })
+        celsius,
+        fahrenheit,
+        freezing,
+        boiling
+      })
     this.props.addToLog(newLogEntries)
+  }
 
+  validateProps = (nextProps) => {
+    return (nextProps.data && nextProps.data.unit && nextProps.data.temp)
   }
 
   didCrossThreshold = (newTemp, oldTemp, threshold, direction) => {
@@ -77,6 +83,8 @@ export default class Thermometer extends React.Component {
   calcTemp (from, temp) {
     let celsius = this.state.celsius
     let fahrenheit = this.state.fahrenheit
+
+    if(!temp) return {celsius, fahrenheit}
     switch (from) {
       case 'celsius':
         fahrenheit = temp * 9 / 5 + 32
@@ -87,7 +95,9 @@ export default class Thermometer extends React.Component {
         fahrenheit = temp
         break
       default:
-        console.log('Error: invalid units')
+        celsius = null;
+        fahrenheit = null;
+        break;
     }
     return {celsius, fahrenheit}
 

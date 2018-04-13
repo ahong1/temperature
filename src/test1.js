@@ -1,3 +1,5 @@
+
+//Basic data
 export const test1data = [
   {unit: 'celsius', temp: 0},
   {unit: 'celsius', temp: 0},
@@ -111,6 +113,7 @@ export const test1data = [
   {unit: 'celsius', temp: -1}
 ]
 
+//Close numbers data
 export const test2data = [
   {unit: 'celsius', temp: 0},
   {unit: 'celsius', temp: 0.1},
@@ -144,6 +147,7 @@ export const test2data = [
   {unit: 'celsius', temp: 2.4}
 ]
 
+//negative temperatures
 export const test3data = [
   {unit: 'celsius', temp: -0},
   {unit: 'celsius', temp: -0.1},
@@ -177,6 +181,7 @@ export const test3data = [
   {unit: 'celsius', temp: -2.4}
 ]
 
+// fahrenheit temperatures
 export const test4data = [
   {unit: 'fahrenheit', temp: 32},
   {unit: 'fahrenheit', temp: 32},
@@ -289,4 +294,39 @@ export const test4data = [
   {unit: 'fahrenheit', temp: 30.2},
   {unit: 'fahrenheit', temp: 30.2},
   {unit: 'fahrenheit', temp: 30.2}
+]
+
+//empty data
+export const test5data =[]
+
+//invalid data
+export const test6data = [{notAUnit: '', notATemp: 0}]
+
+//invalid data in the middle
+export const test7data = [
+  {unit: 'celsius', temp: 0},
+  {unit: 'celsius', temp: 0},
+  {unit: 'celsius', temp: 0},
+  {unit: 'celsius', temp: 0},
+  {unit: 'celsius', temp: 0},
+  {unit: 'celsius', temp: 0.5},
+  {unit: 'celsius', temp: 0.5},
+  {unit: 'celsius', temp: 0.5},
+  {unit: 'celsius', temp: 0.5},
+  {unit: 'celsius', temp: 0.5},
+  {unit: 'celsius', notAtemp: 1},
+  {unit: 'celsius', notAtemp: 1},
+  {unit: 'celsius', notAtemp: 1},
+  {unit: 'celsius', notAtemp: 1},
+  {unit: 'celsius', notAtemp: 1},
+  {unit: 'celsius', temp: 1.5},
+  {unit: 'celsius', temp: 1.5},
+  {unit: 'celsius', temp: 1.5},
+  {unit: 'celsius', temp: 1.5},
+  {unit: 'celsius', temp: 1.5},
+  {unit: 'celsius', temp: 2},
+  {unit: 'celsius', temp: 2},
+  {unit: 'celsius', temp: 2},
+  {unit: 'celsius', temp: 2},
+  {unit: 'celsius', temp: 2},
 ]

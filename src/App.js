@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import './App.css'
 import Thermometer from './thermometer.js'
-import { test1data, test2data, test3data, test4data } from './test1.js'
+import { test1data, test2data, test3data, test4data, test5data, test6data, test7data} from './test1.js'
 
-const testData = test4data
+const testData = test1data
 
 class App extends Component {
 
@@ -11,13 +11,13 @@ class App extends Component {
     super()
     this.state =
       {
-        currentData: testData[0],
+        currentData: testData[0] || null,
         dataPoint: 0,
         freezingPoint: null,
         boilingPoint: null,
         difference: 0,
         direction: 0,
-        units: testData[0].unit,
+        units: (testData[0] && testData[0].unit) || 'celsius',
         log: ''
 
       }
@@ -27,7 +27,9 @@ class App extends Component {
   handleStart = () => {
     this.setState({
       simulation: setInterval(function () {
+        if(testData.length === 0){this.addToLog('No Data!'); clearInterval(this.state.simulation); return}
         if (!testData[this.state.dataPoint]) {
+          this.addToLog('End of data')
           clearInterval(this.state.simulation)
           return
         }
